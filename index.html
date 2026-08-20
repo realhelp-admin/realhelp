@@ -9,9 +9,10 @@
 <!-- ================= CONFIG — fill these in, see README.md ================= -->
 <script>
   window.REALHELP_CONFIG = {
-    SUPABASE_URL: "https://kkaprmsnhpcqsolnnqzs.supabase.co",
-    SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrYXBybXNuaHBjcXNvbG5ucXpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxNzY0NjcsImV4cCI6MjEwMjc1MjQ2N30.e9a28_JdYgMJQoIx5TBxl5ELwiw3mTKEVrrtWGfhShI",
-    ARCGIS_API_KEY: "AAPTaWgqfrUmq6cqbiFdtRMD6gA..PIlQYtd8XIkcBhAvQ61qiBXJjQQvrNKZPEA67DKkQmS125nnNkdkBGS692ynyCs43kXqZ3RFt4EkVoJj6O9z0jb2mNf2c1TawT5ZsdIZnUZTqPDGsW6ZCoP0w2iRMIuZHem9Fz5KMCtD8BH7kdK6vgtOdOSPeibHQ9G12cYOqg6FAaEKtV41WMVZpBqcBKP9wGuxfPwAkL5OH9eoo56CzUi7jVXnLAhgbNya4DAyXdTQI1ANLA8188QgBP-8aW6TAT1_Tj0wHeC3",
+    SUPABASE_URL: "https://YOUR-PROJECT-REF.supabase.co",
+    SUPABASE_ANON_KEY: "YOUR-SUPABASE-ANON-KEY",
+    ARCGIS_API_KEY: "YOUR-ARCGIS-API-KEY",
+    // Fallback map center if the browser won't share location (Atlanta, a nod to the original prototype's HOPE Atlanta partner).
     DEFAULT_CENTER: [-84.3880, 33.7490],
     DEFAULT_ZOOM: 12
   };
@@ -788,7 +789,8 @@
         body: JSON.stringify({
           report_id: state.activeReport.id,
           amount: state.donateAmount,
-          donor_email: document.getElementById("in-donate-email").value.trim() || undefined
+          donor_email: document.getElementById("in-donate-email").value.trim() || undefined,
+          return_url: window.location.origin + window.location.pathname
         })
       });
       const data = await res.json();
