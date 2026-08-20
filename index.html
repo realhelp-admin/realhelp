@@ -68,6 +68,13 @@
     color:var(--charcoal);
     background:#dbe9ee;
     -webkit-font-smoothing:antialiased;
+    /* iOS Safari (and especially standalone/home-screen mode) doesn't keep 100vh
+       in sync with the real visible viewport as toolbars/status bar show or hide.
+       100dvh tracks the actual visible area; -webkit-fill-available is the older
+       iOS fallback. Both are layered under the plain vh value below. */
+    min-height:100vh;
+    min-height:-webkit-fill-available;
+    min-height:100dvh;
   }
   h1,h2,h3,.display{font-family:var(--font-display);}
   button{font-family:inherit;}
@@ -78,6 +85,8 @@
     max-width:480px;
     margin:0 auto;
     min-height:100vh;
+    min-height:-webkit-fill-available;
+    min-height:100dvh;
     background:var(--surface-alt);
     position:relative;
     display:flex;
@@ -85,7 +94,7 @@
     overflow:hidden;
   }
   @media (min-width:560px){
-    body{display:flex;justify-content:center;padding:28px 0;}
+    body{display:flex;justify-content:center;padding:28px 0;min-height:100vh;}
     #app-frame{
       min-height:calc(100vh - 56px);
       height:860px;
@@ -99,7 +108,7 @@
   #splash{
     position:absolute;inset:0;z-index:100;
     display:flex;flex-direction:column;align-items:center;
-    padding-top:18vh;
+    padding-top:calc(18vh + env(safe-area-inset-top));
     background:linear-gradient(180deg,#84c0d3 0%,#93c9da 45%,#a9d4e1 100%);
     transition:opacity .45s ease, visibility .45s ease;
   }
@@ -116,7 +125,7 @@
   /* ---------- Header ---------- */
   header{
     background:linear-gradient(160deg,#7db9cd,#8fc4d6 55%,#9dcce0);
-    padding:18px 20px 16px;
+    padding:calc(18px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-right)) 16px calc(20px + env(safe-area-inset-left));
     color:#fff;
     flex-shrink:0;
     position:relative;
@@ -271,7 +280,7 @@
   nav.bottom-nav{
     display:flex;justify-content:space-around;align-items:center;
     background:#fff;border-top:1px solid var(--border);flex-shrink:0;
-    padding:10px 18px calc(10px + env(safe-area-inset-bottom));z-index:6;position:relative;
+    padding:10px calc(18px + env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) calc(18px + env(safe-area-inset-left));z-index:6;position:relative;
   }
   nav.bottom-nav button{
     background:none;border:none;display:flex;align-items:center;justify-content:center;
