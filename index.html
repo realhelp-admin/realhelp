@@ -125,34 +125,19 @@
   /* ---------- Header ---------- */
   header{
     background:linear-gradient(160deg,#7db9cd,#8fc4d6 55%,#9dcce0);
-    padding:calc(18px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-right)) 16px calc(20px + env(safe-area-inset-left));
+    padding:calc(22px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-right)) 18px calc(20px + env(safe-area-inset-left));
     color:#fff;
     flex-shrink:0;
     position:relative;
     z-index:5;
+    text-align:center;
   }
-  .brand-row{display:flex;align-items:center;justify-content:space-between;}
+  .brand-row{display:flex;align-items:center;justify-content:center;}
   .brand-word{
-    font-family:var(--font-display);font-weight:800;color:#fff;font-size:26px;letter-spacing:-.3px;
+    font-family:var(--font-display);font-weight:800;color:#fff;font-size:38px;letter-spacing:-.5px;
   }
-  .live-pill{
-    display:flex;align-items:center;gap:6px;
-    background:rgba(255,255,255,.22);
-    border-radius:999px;
-    padding:5px 10px 5px 8px;
-    font-size:11.5px;font-weight:600;letter-spacing:.02em;color:#fff;
-  }
-  .pulse-dot{
-    width:7px;height:7px;border-radius:50%;background:#8be07a;
-    box-shadow:0 0 0 0 rgba(139,224,122,.7);
-    animation:pulse 1.8s infinite;
-  }
-  @keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(139,224,122,.6);}
-    70%{box-shadow:0 0 0 7px rgba(139,224,122,0);}
-    100%{box-shadow:0 0 0 0 rgba(139,224,122,0);}
-  }
-  .stat-row{display:flex;gap:26px;margin-top:12px;}
+  .stat-row{display:flex;justify-content:space-evenly;margin-top:10px;}
+  .stat-row > div{display:flex;flex-direction:column;align-items:center;}
   .stat-row .stat-num{font-family:var(--font-script);font-size:30px;font-weight:700;line-height:1;color:var(--ink);}
   .stat-row .stat-label{font-family:var(--font-script);font-size:17px;font-weight:600;color:var(--ink);margin-top:1px;}
 
@@ -169,37 +154,38 @@
     width:42px;height:42px;border-radius:50%;border:none;background:#fff;
     box-shadow:var(--shadow-card);display:flex;align-items:center;justify-content:center;cursor:pointer;
   }
-  .fab{
-    position:absolute;left:50%;bottom:96px;transform:translateX(-50%);
-    background:var(--primary);color:#fff;border:none;border-radius:999px;
-    padding:13px 22px;font-weight:700;font-size:14.5px;display:flex;align-items:center;gap:8px;
-    box-shadow:var(--shadow-float);cursor:pointer;z-index:4;font-family:var(--font-display);
-  }
   .legend{
-    position:absolute;left:14px;right:14px;bottom:14px;z-index:4;
+    position:absolute;left:14px;right:14px;bottom:104px;z-index:4;
     background:linear-gradient(135deg,#7db9cd,#96c9db);
-    border-radius:999px;padding:10px 8px;box-shadow:var(--shadow-card);
+    border-radius:var(--radius-lg);padding:14px 8px 12px;box-shadow:var(--shadow-card);
     display:flex;justify-content:space-around;
   }
-  .legend div{display:flex;flex-direction:column;align-items:center;gap:3px;}
-  .legend span.dot{width:11px;height:11px;border-radius:50%;display:inline-block;border:2px solid rgba(255,255,255,.8);}
-  .legend span.legend-label{font-family:var(--font-script);font-weight:600;font-size:15px;color:var(--ink);}
+  .legend button.legend-item{
+    display:flex;flex-direction:column;align-items:center;gap:5px;
+    background:none;border:none;cursor:pointer;padding:4px 10px;-webkit-tap-highlight-color:transparent;
+  }
+  .legend span.dot{width:13px;height:13px;border-radius:50%;display:inline-block;border:2px solid rgba(255,255,255,.85);}
+  .legend span.legend-label{font-family:var(--font-script);font-weight:600;font-size:17px;color:var(--ink);}
 
   /* ---------- Track view ---------- */
-  #view-track{padding:16px;padding-bottom:112px;}
+  #view-track{padding:16px;padding-bottom:130px;}
   .search-box{
-    display:flex;align-items:center;gap:8px;
+    display:flex;align-items:center;gap:10px;
     background:linear-gradient(135deg,#82bdd1,#98cbdd);
-    border-radius:999px;
-    padding:12px 16px;box-shadow:var(--shadow-card);margin-bottom:14px;
+    border-radius:var(--radius-lg);
+    padding:9px 18px 9px 9px;box-shadow:var(--shadow-card);margin-bottom:14px;
   }
-  .search-box input{border:none;outline:none;flex:1;background:transparent;color:#fff;font-family:var(--font-script);font-size:17px;font-weight:600;}
-  .search-box input::placeholder{color:rgba(255,255,255,.88);}
-  .chip-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px;}
+  .search-box .search-icon-badge{
+    width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.25);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .search-box input{border:none;outline:none;flex:1;background:transparent;color:#fff;font-family:var(--font-script);font-size:19px;font-weight:600;}
+  .search-box input::placeholder{color:rgba(255,255,255,.9);}
+  .chip-row{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:10px;}
   .chip{
-    flex-shrink:0;padding:8px 16px;border-radius:999px;border:none;
-    background:var(--teal-soft);font-family:var(--font-script);font-size:16px;font-weight:600;
-    color:var(--ink);cursor:pointer;white-space:nowrap;
+    padding:9px 4px;border-radius:var(--radius-sm);border:none;text-align:center;
+    background:var(--teal-soft);font-family:var(--font-script);font-size:17px;font-weight:600;
+    color:var(--ink);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
   .chip.active{background:var(--teal-deep);color:#fff;}
   .report-card{
@@ -209,35 +195,36 @@
   }
   .report-card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
   .cat-badge{
-    width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;
-    background:rgba(255,255,255,.9);border:2px solid rgba(255,255,255,.6);
+    width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.75);
   }
   .report-card-title{font-family:var(--font-body);font-size:14px;font-weight:600;color:#fff;flex:1;line-height:1.35;}
-  .status-pill{font-family:var(--font-script);font-size:14px;font-weight:600;padding:4px 12px;border-radius:999px;flex-shrink:0;}
-  .status-reported{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.85);}
-  .status-in_progress{background:#fff;color:var(--teal-deep);}
+  .status-pill{font-family:var(--font-script);font-size:15px;font-weight:600;padding:4px 13px;border-radius:999px;flex-shrink:0;}
+  .status-reported{background:#fff;color:var(--teal-deep);}
+  .status-in_progress{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.85);}
   .status-resolved{background:var(--teal-deep);color:#fff;}
-  .progress-track{height:7px;border-radius:4px;background:rgba(255,255,255,.4);overflow:hidden;margin-top:10px;}
-  .progress-fill{height:100%;background:#fff;border-radius:4px;transition:width .4s ease;}
+  .progress-track{height:7px;border-radius:4px;background:rgba(255,255,255,.5);overflow:hidden;margin-top:10px;}
+  .progress-fill{height:100%;background:var(--teal-deep);border-radius:4px;transition:width .4s ease;}
   .progress-meta{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:#fff;margin-top:7px;}
 
   .empty-state{text-align:center;padding:60px 24px;color:var(--charcoal);}
   .empty-state svg{margin-bottom:10px;opacity:.5;}
 
   /* ---------- Report form view ---------- */
-  #view-report{padding:20px;padding-bottom:120px;}
-  .section-label{font-family:var(--font-display);font-size:19px;font-weight:700;color:var(--ink);margin:22px 0 12px;}
+  #view-report{padding:20px;padding-bottom:138px;}
+  .section-label{font-family:var(--font-display);font-size:21px;font-weight:700;color:var(--ink);margin:22px 0 14px;text-align:center;}
   .section-label:first-child{margin-top:2px;}
   .section-label .hint-inline{font-family:var(--font-body);opacity:.6;font-weight:400;font-size:12px;text-transform:none;}
   .cat-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
   .cat-card{
-    background:var(--teal-pale);border:2px solid var(--teal-pale);border-radius:var(--radius-md);padding:16px 6px;
-    text-align:center;cursor:pointer;transition:border-color .15s,background .15s;
+    background:linear-gradient(135deg,#8ec4d7,#a3d0e0);border:2px solid transparent;border-radius:var(--radius-lg);padding:20px 6px;
+    text-align:center;cursor:pointer;transition:border-color .15s,transform .1s;
   }
-  .cat-card.selected{border-color:var(--primary);background:#dcf0f6;}
-  .cat-card .cat-badge{margin:0 auto 8px;width:46px;height:46px;background:#fff;border:none;box-shadow:var(--shadow-card);}
-  .cat-card .cat-name{font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--ink);line-height:1.25;}
-  .cat-hint{font-size:12.5px;color:var(--charcoal);opacity:.8;margin-top:10px;line-height:1.45;}
+  .cat-card.selected{border-color:var(--ink);}
+  .cat-card .cat-badge{margin:0 auto 10px;width:auto;height:auto;background:none;border:none;box-shadow:none;}
+  .cat-card .cat-badge svg{width:34px;height:34px;}
+  .cat-card .cat-name{font-family:var(--font-script);font-size:20px;font-weight:600;color:var(--ink);line-height:1.25;}
+  .cat-hint{font-size:12.5px;color:var(--charcoal);opacity:.8;margin-top:10px;line-height:1.45;text-align:center;}
 
   textarea, .text-input{
     width:100%;border:none;border-radius:var(--radius-md);padding:14px 16px;
@@ -270,24 +257,32 @@
 
   .primary-btn{
     width:100%;background:linear-gradient(135deg,#7db9cd,#8fc4d6);color:#fff;border:none;border-radius:999px;
-    padding:16px;font-weight:700;font-size:16px;cursor:pointer;margin-top:22px;font-family:var(--font-display);
+    padding:15px;font-weight:600;font-size:19px;cursor:pointer;margin-top:22px;font-family:var(--font-script);
     box-shadow:var(--shadow-card);
   }
   .primary-btn:disabled{opacity:.5;cursor:not-allowed;}
-  .primary-btn.ghost{background:#fff;color:var(--primary-dark);border:1.5px solid var(--teal);margin-top:10px;box-shadow:none;}
+  .primary-btn.ghost{background:#fff;color:var(--teal-deep);border:1.5px solid var(--teal);margin-top:10px;box-shadow:none;}
 
   /* ---------- Bottom nav ---------- */
   nav.bottom-nav{
+    position:absolute;
+    left:calc(14px + env(safe-area-inset-left));
+    right:calc(14px + env(safe-area-inset-right));
+    bottom:calc(14px + env(safe-area-inset-bottom));
     display:flex;justify-content:space-around;align-items:center;
-    background:#fff;border-top:1px solid var(--border);flex-shrink:0;
-    padding:10px calc(18px + env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) calc(18px + env(safe-area-inset-left));z-index:6;position:relative;
+    background:linear-gradient(135deg,#7db9cd,#96c9db);
+    border-radius:var(--radius-lg);
+    padding:9px 10px;
+    box-shadow:var(--shadow-float);
+    z-index:8;
   }
   nav.bottom-nav button{
     background:none;border:none;display:flex;align-items:center;justify-content:center;
-    width:46px;height:46px;border-radius:50%;cursor:pointer;color:#9db3bd;transition:background .15s,color .15s;
+    width:64px;height:44px;border-radius:var(--radius-sm);cursor:pointer;color:#fff;transition:background .15s;
+    -webkit-tap-highlight-color:transparent;
   }
   nav.bottom-nav button.active{
-    color:#fff;background:linear-gradient(135deg,#7db9cd,#8fc4d6);box-shadow:var(--shadow-card);
+    background:rgba(255,255,255,.3);
   }
 
   /* ---------- Detail sheet & donate ---------- */
@@ -344,7 +339,6 @@
   <header>
     <div class="brand-row">
       <div class="brand-word">RealHelp</div>
-      <div class="live-pill"><span class="pulse-dot"></span>LIVE</div>
     </div>
     <div class="stat-row">
       <div>
@@ -372,10 +366,10 @@
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#1c4a63" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
         </button>
       </div>
-      <div class="legend">
-        <div><span class="dot" style="background:var(--support)"></span><span class="legend-label">Person</span></div>
-        <div><span class="dot" style="background:var(--hazard)"></span><span class="legend-label">Things</span></div>
-        <div><span class="dot" style="background:var(--safety)"></span><span class="legend-label">Safety</span></div>
+      <div class="legend" id="map-legend">
+        <button class="legend-item" data-cat="support"><span class="dot" style="background:var(--support)"></span><span class="legend-label">Person</span></button>
+        <button class="legend-item" data-cat="hazard"><span class="dot" style="background:var(--hazard)"></span><span class="legend-label">Things</span></button>
+        <button class="legend-item" data-cat="safety"><span class="dot" style="background:var(--safety)"></span><span class="legend-label">Safety</span></button>
       </div>
     </section>
 
@@ -415,7 +409,7 @@
     <!-- ===== TRACK VIEW ===== -->
     <section id="view-track" class="view">
       <div class="search-box">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        <span class="search-icon-badge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></span>
         <input id="in-search" placeholder="Search by keyword or address">
       </div>
       <div class="chip-row" id="filter-category">
@@ -560,29 +554,39 @@
   document.getElementById("btn-cancel-report").addEventListener("click", ()=>{ resetReportForm(); showView("map"); });
 
   // ---------- category cards ----------
+  const CAT_HINTS = {
+    support: "For someone who needs housing, food, or other resources — this connects them to help, it isn't a complaint.",
+    hazard: "Downed lines, abandoned scooters, potholes, or other physical hazards — not about a person.",
+    safety: "A non-emergency concern worth tracking. For anything urgent or dangerous right now, call 911 first."
+  };
   function renderCategoryCards(){
     const wrap = document.getElementById("cat-cards");
     wrap.innerHTML = Object.entries(CATEGORIES).map(([key,c])=>`
       <div class="cat-card" data-cat="${key}">
-        <div class="cat-badge" style="background:${c.bg}">${c.icon}</div>
+        <div class="cat-badge">${c.icon}</div>
         <div class="cat-name">${c.short}</div>
       </div>`).join("");
     wrap.querySelectorAll(".cat-card").forEach(card=>{
-      card.addEventListener("click", ()=>{
-        state.selectedCategory = card.dataset.cat;
-        wrap.querySelectorAll(".cat-card").forEach(c=>c.classList.remove("selected"));
-        card.classList.add("selected");
-        const hints = {
-          support: "For someone who needs housing, food, or other resources — this connects them to help, it isn't a complaint.",
-          hazard: "Downed lines, abandoned scooters, potholes, or other physical hazards — not about a person.",
-          safety: "A non-emergency concern worth tracking. For anything urgent or dangerous right now, call 911 first."
-        };
-        document.getElementById("cat-hint").textContent = hints[card.dataset.cat];
-        validateReportForm();
-      });
+      card.addEventListener("click", ()=>selectCategory(card.dataset.cat));
     });
   }
   renderCategoryCards();
+
+  function selectCategory(key){
+    state.selectedCategory = key;
+    document.querySelectorAll("#cat-cards .cat-card").forEach(c=>c.classList.toggle("selected", c.dataset.cat===key));
+    document.getElementById("cat-hint").textContent = CAT_HINTS[key];
+    validateReportForm();
+  }
+
+  // Tapping a legend item on the map jumps straight into the report form
+  // with that category already selected.
+  document.getElementById("map-legend").addEventListener("click", (e)=>{
+    const item = e.target.closest(".legend-item");
+    if(!item) return;
+    selectCategory(item.dataset.cat);
+    showView("report");
+  });
 
   // ---------- location capture ----------
   document.getElementById("btn-use-location").addEventListener("click", ()=>{
