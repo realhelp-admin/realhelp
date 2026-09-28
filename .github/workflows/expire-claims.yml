@@ -1,0 +1,14 @@
+name: Expire overdue claims
+
+on:
+  schedule:
+    - cron: "0 8 * * *"   # daily at 8am UTC
+  workflow_dispatch: {}
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call expire-claims function
+        run: |
+          curl -sf -X POST "https://kkaprmsnhpcqsolnnqzs.supabase.co/functions/v1/expire-claims"
