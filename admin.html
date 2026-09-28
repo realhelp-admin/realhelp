@@ -89,6 +89,58 @@
 
   .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:13px;font-weight:600;box-shadow:var(--shadow-float);z-index:50;opacity:0;pointer-events:none;transition:opacity .25s;white-space:nowrap;}
   .toast.show{opacity:1;}
+
+  /* =====================================================================
+     Keyboard focus, hover, reduced motion
+     ===================================================================== */
+  button:focus-visible{outline:3px solid var(--brand-navy);outline-offset:2px;}
+  header button:focus-visible{outline-color:#fff;}
+  @media (hover:hover){
+    .btn-approve:hover,.btn-reject:hover,.login-btn:hover{filter:brightness(1.08);}
+  }
+  @media (prefers-reduced-motion:reduce){ .toast{transition:none;} }
+
+  /* =====================================================================
+     TABLET / DESKTOP (>=768px): wide header, review cards as a grid
+     ===================================================================== */
+  @media (min-width:768px){
+    body{padding:0;}
+    #app-frame{
+      max-width:none;width:100%;margin:0;
+      min-height:100vh;border-radius:0;border:none;box-shadow:none;
+    }
+    header{padding:24px 32px 20px;text-align:left;}
+    .brand-row{justify-content:flex-start;gap:16px;}
+    .brand-row img{height:52px;}
+    .signout-btn{position:absolute;right:32px;}
+    .stat-row{justify-content:flex-start;margin-top:14px;gap:16px;}
+    .stat-row > div{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.35);border-radius:var(--radius-md);padding:8px 18px;}
+    .stat-row .stat-num{font-size:30px;}
+    .stat-row .stat-label{font-size:17px;}
+
+    main{
+      padding:28px 32px 48px;
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
+      gap:20px;
+      align-content:start;
+    }
+    .review-card{margin-bottom:0;}
+    .empty-state{grid-column:1 / -1;}
+    .review-top{flex-wrap:wrap;}
+    .review-title{min-width:180px;}
+    .org-tag{white-space:nowrap;}
+
+    #view-login img{width:280px;}
+    #view-login input,.login-btn{max-width:400px;}
+  }
+
+  /* =====================================================================
+     WIDE DESKTOP (>=1400px): cap columns so cards don't get too sparse
+     ===================================================================== */
+  @media (min-width:1400px){
+    main{grid-template-columns:repeat(3,minmax(380px,440px));justify-content:start;}
+  }
 </style>
 </head>
 <body>
@@ -154,6 +206,12 @@
     btn.disabled = false; btn.textContent = "Sign In";
     if(error){ errEl.textContent = error.message; return; }
     await afterLogin();
+  });
+
+  ["in-email","in-password"].forEach(id=>{
+    document.getElementById(id).addEventListener("keydown", e=>{
+      if(e.key === "Enter") document.getElementById("btn-login").click();
+    });
   });
 
   document.getElementById("btn-signout").addEventListener("click", async ()=>{
