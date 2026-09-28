@@ -151,6 +151,103 @@
   .toast{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:13px;font-weight:600;box-shadow:var(--shadow-float);z-index:20;opacity:0;pointer-events:none;transition:opacity .25s, bottom .25s;white-space:nowrap;}
   .toast.show{opacity:1;bottom:106px;}
   .esri-view .esri-attribution{font-size:9px;}
+
+  /* =====================================================================
+     ALL SIZES: keyboard focus, hover, reduced motion
+     ===================================================================== */
+  button:focus-visible,.photo-upload:focus-visible{outline:3px solid var(--brand-navy);outline-offset:2px;}
+  header button:focus-visible,nav.bottom-nav button:focus-visible,.map-toggle button:focus-visible{outline-color:#fff;}
+  .report-card.selected{box-shadow:0 0 0 3px var(--brand-navy), var(--shadow-card);}
+  @media (hover:hover){
+    .card-btn:hover,.primary-btn:hover,.login-btn:hover{filter:brightness(1.1);}
+    nav.bottom-nav button:hover:not(.active),.map-toggle button:hover:not(.active){background:rgba(255,255,255,.18);}
+  }
+  @media (prefers-reduced-motion:reduce){ .toast{transition:none;} }
+
+  /* =====================================================================
+     TABLET / DESKTOP (>=768px): full-window app with a left sidebar.
+     Everything above this point (the mobile layout) is unchanged.
+     ===================================================================== */
+  @media (min-width:768px){
+    :root{--side-w:300px;}
+    body{display:block;padding:0;background:var(--surface-alt);}
+    #app-frame{
+      max-width:none;width:100%;margin:0;
+      height:100vh;height:100dvh;min-height:0;
+      border-radius:0;border:none;box-shadow:none;
+      display:grid;
+      grid-template-columns:var(--side-w) minmax(0,1fr);
+      grid-template-rows:auto minmax(0,1fr);
+    }
+
+    /* Sidebar = header (brand + stats) stacked over the nav */
+    header{grid-column:1;grid-row:1;padding:28px 20px 8px;border-right:1px solid rgba(51,77,102,.12);}
+    .brand-row img{height:52px;}
+    .org-name{font-size:22px;margin-top:6px;}
+    .stat-row{flex-direction:column;align-items:stretch;gap:8px;margin-top:20px;}
+    .stat-row > div{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.35);border-radius:var(--radius-md);padding:8px 16px;}
+    .stat-row .stat-num{min-width:44px;font-size:32px;text-align:left;}
+    .stat-row .stat-label{font-size:18px;}
+
+    nav.bottom-nav{
+      position:static;grid-column:1;grid-row:2;
+      flex-direction:column;align-items:stretch;justify-content:flex-start;gap:6px;
+      border-radius:0;box-shadow:none;padding:16px 16px 24px;
+      border-right:1px solid rgba(51,77,102,.12);
+    }
+    nav.bottom-nav button{justify-content:flex-start;padding:12px 18px;font-size:21px;}
+
+    main{grid-column:2;grid-row:1 / span 2;min-width:0;}
+
+    /* Login: keep the form a readable width */
+    #view-login img{width:280px;}
+    #view-login input,.login-btn{max-width:400px;}
+
+    /* Browse (tablet): Map / List toggle stays, list becomes a card grid */
+    .map-toggle{left:50%;right:auto;width:260px;transform:translateX(-50%);top:16px;}
+    #browse-list.active{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;align-content:start;
+      top:0;padding:76px 24px 32px;background:var(--surface-alt);
+    }
+    #browse-list .report-card{margin:0;}
+    #browse-list .empty-state{grid-column:1 / -1;}
+    .legend{left:16px;right:auto;bottom:16px;gap:18px;justify-content:flex-start;padding:10px 20px;}
+    #browse-list.active ~ .legend{display:none;}
+
+    /* Queue: responsive card grid */
+    #view-queue{padding:32px 32px 48px;}
+    .section-label{font-size:22px;margin:0 0 16px;}
+    #queue-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;align-items:start;}
+    #queue-list .report-card{margin:0;}
+    #queue-list .empty-state{grid-column:1 / -1;}
+
+    /* Resolve sheet becomes a centered dialog */
+    .sheet-overlay{align-items:center;justify-content:center;padding:24px;}
+    .sheet{max-width:540px;max-height:90%;border-radius:24px;padding:28px 32px 32px;box-shadow:var(--shadow-float);}
+    .sheet-handle{display:none;}
+    .sheet h3{font-size:20px;}
+
+    /* Toast centers over the content area, not the sidebar */
+    .toast{left:calc(var(--side-w) + (100% - var(--side-w)) / 2);bottom:28px;}
+    .toast.show{bottom:40px;}
+  }
+
+  /* =====================================================================
+     WIDE DESKTOP (>=1100px): list and map side by side, no toggle needed
+     ===================================================================== */
+  @media (min-width:1100px){
+    :root{--side-w:320px;--list-w:clamp(380px,30vw,460px);}
+    .map-toggle{display:none;}
+    #map-el{left:var(--list-w);}
+    #browse-list,#browse-list.active{
+      display:block;top:0;bottom:0;left:0;right:auto;width:var(--list-w);
+      padding:20px 20px 32px;background:var(--surface-alt);
+      border-right:1px solid var(--border);z-index:3;
+    }
+    #browse-list .report-card{margin:0 0 16px;cursor:pointer;}
+    #browse-list .card-btn{cursor:pointer;}
+    .legend,#browse-list.active ~ .legend{display:flex;left:calc(var(--list-w) + 16px);bottom:20px;}
+  }
 </style>
 </head>
 <body>
@@ -262,10 +359,18 @@
     mapView: null,
     graphicsLayer: null,
     activeClaimId: null,
+    selectedReportId: null,
     resolutionPhotoFile: null
   };
 
   function escapeHtml(str){ return (str ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+  const SPLIT_VIEW = window.matchMedia("(min-width:1100px)");
+  const DESKTOP = window.matchMedia("(min-width:768px)");
+  function selectCard(card){
+    document.querySelectorAll("#browse-list .report-card.selected").forEach(c=>c.classList.remove("selected"));
+    state.selectedReportId = card ? card.dataset.reportId : null;
+    if(card) card.classList.add("selected");
+  }
   function money(n){ return "$" + Number(n||0).toLocaleString(undefined,{maximumFractionDigits:0}); }
   function toast(msg){
     const t = document.getElementById("toast");
@@ -289,6 +394,12 @@
     btn.disabled = false; btn.textContent = "Sign In";
     if(error){ errEl.textContent = error.message; return; }
     await afterLogin();
+  });
+
+  ["in-email","in-password"].forEach(id=>{
+    document.getElementById(id).addEventListener("keydown", e=>{
+      if(e.key === "Enter") document.getElementById("btn-login").click();
+    });
   });
 
   document.getElementById("btn-signout").addEventListener("click", async ()=>{
@@ -390,7 +501,7 @@
           if(hit){
             document.getElementById("toggle-list-btn").click();
             const card = document.querySelector(`[data-report-id="${hit.graphic.attributes.reportId}"]`);
-            if(card) card.scrollIntoView({ behavior:"smooth", block:"center" });
+            if(card){ card.scrollIntoView({ behavior:"smooth", block:"center" }); selectCard(card); }
           }
         });
       });
@@ -423,7 +534,7 @@
     wrap.innerHTML = state.openReports.map(r=>{
       const cat = CATEGORIES[r.category] || CATEGORIES.support;
       return `
-      <div class="report-card" data-report-id="${r.id}">
+      <div class="report-card${String(r.id) === state.selectedReportId ? ' selected' : ''}" data-report-id="${r.id}">
         <div class="report-card-top">
           <div class="cat-badge">${cat.icon}</div>
           <div class="report-card-title">${escapeHtml(r.description).slice(0,110)}</div>
@@ -439,6 +550,17 @@
 
     wrap.querySelectorAll("[data-claim-report]").forEach(btn=>{
       btn.addEventListener("click", ()=>claimReport(btn.dataset.claimReport, btn));
+    });
+
+    // Wide desktop: clicking a card highlights it and pans the map to its pin
+    wrap.querySelectorAll(".report-card").forEach(card=>{
+      card.addEventListener("click", (e)=>{
+        if(e.target.closest("button")) return;
+        selectCard(card);
+        if(!SPLIT_VIEW.matches || !state.mapView) return;
+        const r = state.openReports.find(x=>String(x.id) === card.dataset.reportId);
+        if(r) state.mapView.goTo({ center:[r.lng, r.lat], zoom:Math.max(state.mapView.zoom, 15) }, { duration:500 }).catch(()=>{});
+      });
     });
   }
 
@@ -504,6 +626,12 @@
   }
   document.getElementById("btn-cancel-resolution").addEventListener("click", ()=>{
     document.getElementById("sheet-overlay").classList.remove("active");
+  });
+  document.getElementById("sheet-overlay").addEventListener("click", (e)=>{
+    if(DESKTOP.matches && e.target.id === "sheet-overlay") e.currentTarget.classList.remove("active");
+  });
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape") document.getElementById("sheet-overlay").classList.remove("active");
   });
   document.getElementById("in-resolution-notes").addEventListener("input", validateResolution);
   function validateResolution(){
